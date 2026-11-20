@@ -1,0 +1,16 @@
+# Local Python environment
+.venv/
+
+# Private configuration
+.env
+.env.*
+
+# Keep the configuration template shareable
+!.env.example
+
+# Generated Python files
+__pycache__/
+*.pyc
+
+# Local log files
+*.log
