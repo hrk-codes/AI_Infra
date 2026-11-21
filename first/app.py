@@ -3,37 +3,57 @@ from groq import APIError
 from llm_client import get_reply
 
 def main() -> None:
-    print("Ai Chat Assistant")
-
-    user_input = input("you: ").strip()
-
-    if not user_input:
-        print("please enter a question.")
-        return
 
     messages = [
         {
             "role": "system",
             "content": "You are a helpful assistant. Explain things simply.",
-        },
-        {
-            "role": "user",
-            "content": user_input,
         }
     ]
 
-    print("\nWaiting for response...")
+    print("Ai Chat Assistant")
 
-    answer = get_reply(messages)
+    print("Type /exit to quit.")
 
-    print("\nAssistant:")
-    print(answer)
+    while True:
+        user_input = input("\nYou: ").strip()
 
+        if user_input.lower() == "/exit":
+            print("GoodBye!")
+            break
+
+        if not user_input:
+            continue
+
+        user_message = {
+            "role": "user",
+            "content": user_input,
+        }
+
+        request_messages = messages + [user_message]
+
+        print("\nWaiting for response...")
+
+        try:
+            answer = get_reply(request_messages)
+        except(ValueError, APIError) as error:
+            print(f"Request failed: {error}")
+            continue
+
+        print(f'\nassistant: {answer}')
+
+
+        messages.extend(
+            [
+                user_message,
+                {
+                    "role": "assistant",
+                    "content": answer,
+                },
+            ]
+        )
 if __name__ == "__main__":
     try:
         main()
-    except (ValueError, APIError) as error:
-        print(f"Request failed: {error}")
-        raise SystemExit(1)
     except (KeyboardInterrupt, EOFError):
-        print("\nGooodBye!")
+        print("\nGoodbye.")

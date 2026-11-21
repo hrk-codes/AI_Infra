@@ -11,7 +11,7 @@ def get_reply(messages) -> str:
             model="openai/gpt-oss-20b",
             messages=messages,
             temperature=0.5,
-            max_completion_tokens=2048,
+            max_completion_tokens=250,
             reasoning_effort="low",
             stream=False,
         )
