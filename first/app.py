@@ -1,19 +1,15 @@
 from groq import APIError
 
 from llm_client import get_reply
+from memory.chat_memory import create_memory, add_exchange, clear_memory
 
 def main() -> None:
 
-    messages = [
-        {
-            "role": "system",
-            "content": "You are a helpful assistant. Explain things simply.",
-        }
-    ]
+    messages = create_memory()
 
     print("Ai Chat Assistant")
 
-    print("Type /exit to quit.")
+    print("commands: /exit to quit, /clear to forget the conversation.")
 
     while True:
         user_input = input("\nYou: ").strip()
@@ -21,6 +17,11 @@ def main() -> None:
         if user_input.lower() == "/exit":
             print("GoodBye!")
             break
+
+        if user_input.lower() == "/clear":
+            clear_memory(messages)
+            print("Conversation cleared.")
+            continue
 
         if not user_input:
             continue
@@ -42,16 +43,8 @@ def main() -> None:
 
         print(f'\nassistant: {answer}')
 
-
-        messages.extend(
-            [
-                user_message,
-                {
-                    "role": "assistant",
-                    "content": answer,
-                },
-            ]
-        )
+        add_exchange(messages, user_input, answer)
+        
 if __name__ == "__main__":
     try:
         main()
