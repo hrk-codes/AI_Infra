@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "/clear to forget the conversation"
+  },
+  {
+    "role": "assistant",
+    "content": "I don’t actually have a way to erase the conversation history, but we can start fresh right now. Just let me know what you’d like to talk about next!"
+  }
+]
