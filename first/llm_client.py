@@ -8,10 +8,11 @@ def get_reply(messages) -> str:
 
     with Groq(api_key=api_key, timeout=30.0) as client:
         response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="openai/gpt-oss-20b",
             messages=messages,
             temperature=0.5,
-            max_completion_tokens=300,
+            max_completion_tokens=2048,
+            reasoning_effort="low",
             stream=False,
         )
 
